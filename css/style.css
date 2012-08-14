@@ -1,6 +1,11 @@
 /**
  * CSS for slides
  */
+body {
+  font-family: 'Open Sans', sans-serif;
+  font-weight: bold;
+}
+
 #current-slide-container {
   position: absolute;
   top: 0;
@@ -15,6 +20,7 @@
 	-moz-background-size: cover;
 	-o-background-size: cover;
 	background-size: cover;
+	word-wrap: break-word;
 }
 
 #slides {
@@ -24,8 +30,20 @@
 #current-slide-container p {
   margin: 0;
   padding: 0;
-  line-height: .8em;
+  line-height: .9em;
   position: absolute;
   top: 0;
   left: 0;
+}
+
+#current-slide-container.center {
+  text-align: center;
+}
+
+#current-slide-container.right {
+  text-align: right;
+}
+
+#current-slide-container.justify {
+  text-align: justify;
 }
