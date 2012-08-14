@@ -1,0 +1,16 @@
+/**
+ * CSS for slides
+ */
+#current-slide-container {
+  position: absolute;
+  top: 0;
+  right: 0;
+  botton: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+}
+
+#slides {
+  display: none;
+}
