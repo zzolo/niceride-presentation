@@ -23,7 +23,6 @@
     initialize: function() {
       this.slides = new Slides;
       this.gatherSlides();
-      this.getDimensions();
       
       _.bindAll(this, 'handleKeys');
       $(this.el).bind('keydown', this.handleKeys);
@@ -56,6 +55,8 @@
     },
     
     expandText: function() {
+      this.getDimensions();
+      
       var $text = $('#current-slide-container p');
       var size = (this.windowHeight * 1);
       $text.css('font-size', size + 'px');
