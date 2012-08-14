@@ -14,6 +14,7 @@
     slides: [],
     currentSlide: 0,
     el: 'body',
+    imageBase: './',
     
     events: {
       'click': 'nextSlide',
@@ -21,7 +22,6 @@
     
     initialize: function() {
       this.slides = new Slides;
-      this.getDimensions();
       this.gatherSlides();
       this.showCurrentSlide();
       
@@ -36,6 +36,10 @@
         slide = new Slide;
         slide.set('el',  $(this));
         slide.set('slideNum',  thisApp.slideCount);
+        if ($(this).attr('data-image') !== undefined) {
+          slide.set('image', $(this).attr('data-image'));
+        }
+        
         thisApp.slides.add(slide);
         thisApp.slideCount++;
       });
@@ -52,6 +56,7 @@
     },
     
     expandText: function() {
+      this.getDimensions();
       var size = (this.windowHeight * 3);
       var $text = $('#current-slide-container p');
       $text.css('font-size', size + 'px');
@@ -61,6 +66,21 @@
         $text.width() > this.windowWidth) {
         size -= 10;
         $text.css('font-size', size + 'px');
+      }
+    },
+    
+    clearBackground: function() {
+      $('#current-slide-container').css('background-image', '');
+    },
+    
+    setBackground: function() {
+      this.getDimensions();
+      var imgURL = this.currentSlideObj.get('image');
+      if (imgURL !== undefined) {
+        var size = (this.windowHeight * 3);
+        var $container = $('#current-slide-container');
+        
+        $container.css('background-image', 'url(' + this.imageBase + imgURL + ')');
       }
     },
     
@@ -97,8 +117,14 @@
       if (_.isNumber(slide) && slide !== NaN) {
         slideToShow = this.slides.where({ slideNum: slide });
         if (!_.isEmpty(slideToShow)) {
-          $('#current-slide-container').html(_.template(slideToShow[0].get('el').html(), {}));
+          this.clearBackground();
+        
+          this.currentSlideObj = slideToShow[0];
+          $('#current-slide-container').html(
+            _.template(this.currentSlideObj.get('el').html(), {}));
+            
           this.expandText();
+          this.setBackground();
         }
       }
     }
