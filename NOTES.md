@@ -32,3 +32,17 @@ Notes for the presentation.
 * Python scripts were written to do processing and for glue code.
 * Utilizing Python and PostGIS, we able to determine the popularity of routes (most traveled).
 * Made map layer with TileMill of the routes weighted by popularity.  As well as stations.
+* To find an "Average Day" we wanted to determine bike density.
+* The most "Average Day" was determined as the day that was closest to the average day, determined by bike density.
+* Data exported to JSON to be used in web application.
+
+## Interface
+
+* Undrescore.js is a utility library for Javascript.
+* jQuery is "the" DOM manipulation library.
+* Leaflet is a web mapping library.
+* Wax is a library to help manage map tile sets.
+* Layers on top.
+* Animator.js is a really small, awesome animation handler in Javascript.
+* As a time tracking visualization, we used Flot to show the bike density.
+* Backbone.js is a great library to provide MVC in Javascript and helps organize an applicaiton.
