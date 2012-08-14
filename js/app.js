@@ -16,13 +16,16 @@
     el: 'body',
     
     events: {
-      'click': 'nextSlide'
+      'click': 'nextSlide',
     },
     
     initialize: function() {
       this.slides = new Slides;
       this.gatherSlides();
       this.showCurrentSlide();
+      
+      _.bindAll(this, 'handleKeys');
+      $(this.el).bind('keydown', this.handleKeys);
     },
     
     gatherSlides: function() {
@@ -38,6 +41,15 @@
       return this;
     },
     
+    handleKeys: function(e) {
+      if (e.keyCode === 39) {
+        this.previousSlide();
+      }
+      if (e.keyCode === 37) {
+        this.nextSlide();
+      }
+    },
+    
     showCurrentSlide: function() {
       this.showSlide(this.currentSlide);
     },
@@ -47,6 +59,15 @@
       
       if (this.currentSlide >= this.slideCount) {
         this.currentSlide = 0;
+      }
+      this.showSlide(this.currentSlide);
+    },
+    
+    previousSlide: function() {
+      this.currentSlide--;
+      
+      if (this.currentSlide < 0) {
+        this.currentSlide = this.slideCount;
       }
       this.showSlide(this.currentSlide);
     },
