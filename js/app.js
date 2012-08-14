@@ -23,6 +23,7 @@
     initialize: function() {
       this.slides = new Slides;
       this.gatherSlides();
+      this.getDimensions();
       
       _.bindAll(this, 'handleKeys');
       $(this.el).bind('keydown', this.handleKeys);
@@ -43,7 +44,6 @@
         thisApp.slides.add(slide);
         thisApp.slideCount++;
       });
-      return this;
     },
     
     handleKeys: function(e) {
@@ -56,14 +56,13 @@
     },
     
     expandText: function() {
-      this.getDimensions();
-      var size = (this.windowHeight * 3);
       var $text = $('#current-slide-container p');
+      var size = (this.windowHeight * 1);
       $text.css('font-size', size + 'px');
 
       while (
-        $text.height() > this.windowHeight ||
-        $text.width() > this.windowWidth) {
+        $text.outerHeight(true) > this.windowHeight ||
+        $text.outerWidth(true) > this.windowWidth) {
         size -= 10;
         $text.css('font-size', size + 'px');
       }
@@ -74,10 +73,8 @@
     },
     
     setBackground: function() {
-      this.getDimensions();
       var imgURL = this.currentSlideObj.get('image');
       if (imgURL !== undefined) {
-        var size = (this.windowHeight * 3);
         var $container = $('#current-slide-container');
         
         $container.css('background-image', 'url(' + this.imageBase + imgURL + ')');
@@ -85,8 +82,8 @@
     },
     
     getDimensions: function() {
-      this.windowWidth = $(window).width();
-      this.windowHeight = $(window).height();
+      this.windowWidth = $(window).outerWidth(true);
+      this.windowHeight = $(window).outerHeight(true);
     },
     
     showCurrentSlide: function() {
@@ -122,7 +119,7 @@
           this.currentSlideObj = slideToShow[0];
           $('#current-slide-container').html(
             _.template(this.currentSlideObj.get('el').html(), {}));
-            
+
           this.expandText();
           this.setBackground();
           this.navSlide(slide);
