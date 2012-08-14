@@ -23,10 +23,10 @@
     initialize: function() {
       this.slides = new Slides;
       this.gatherSlides();
-      this.showCurrentSlide();
       
       _.bindAll(this, 'handleKeys');
       $(this.el).bind('keydown', this.handleKeys);
+      $('body').focus();
     },
     
     gatherSlides: function() {
@@ -125,12 +125,53 @@
             
           this.expandText();
           this.setBackground();
+          this.navSlide(slide);
         }
       }
+    },
+    
+    navSlide: function(slide) {
+      if (this.router !== undefined) {
+        this.router.navigate('slide-' + slide);
+      }
+    }
+  });
+  
+  var SlideRouter = Backbone.Router.extend({
+    routes: {
+      '': 'index',
+      'slide-:slide': 'slideRoute',
+      '*error': 'error'
+    },
+  
+    initialize: function() {
+      this.app = new SlideApp();
+      this.app.router = this;
+    },
+  
+    index: function(slide) {
+      this.app.showSlide(0);
+    },
+  
+    slideRoute: function(slide) {
+      slide = parseInt(slide);
+      
+      if (_.isNumber(slide) && slide !== NaN) {
+        this.app.currentSlide = slide;
+        this.app.showSlide(slide);
+      }
+      else {
+        this.app.showSlide(0);
+      }
+    },
+  
+    error: function(errorPath) {
+      // Do something
     }
   });
 
   $(document).ready(function() {
-    var slideApp = new SlideApp();
+    var router = new SlideRouter();
+    Backbone.history.start();
   });
 })(jQuery, window);
